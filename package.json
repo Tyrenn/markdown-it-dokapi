@@ -10,7 +10,7 @@
 		]
 	},
 	"scripts": {
-		"prepublish": "npm run build-ts",
+		"prepublishOnly": "npm run build-ts",
 		"build-ts": "echo 'building...' && tsc -p ./",
 		"test": "node ./out/test"
 	},
