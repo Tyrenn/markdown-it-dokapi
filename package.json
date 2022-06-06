@@ -1,11 +1,10 @@
 {
 	"name": "@tyren/markdown-it-dokapi",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "A markdown-it plugin providing tools to document API",
-	"main": "out/src/index.js",
-	"files": [
-		"out"
-	],
+	"main": "dist/src/index.js",
+	"types": "dist/src/index.d.ts",
+
 	"contributes": {
 		"markdown.markdownItPlugins": true,
 		"markdown.previewStyles": [
