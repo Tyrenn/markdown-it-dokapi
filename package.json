@@ -1,6 +1,6 @@
 	{
 	"name": "@tyren/markdown-it-dokapi",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "A markdown-it plugin providing tools to document API",
 	"main": "./out/src",
 	"contributes": {
@@ -10,9 +10,8 @@
 		]
 	},
 	"scripts": {
-		"prepare": "npm run compile",
-		"prepublish": "npm run compile",
-		"compile": "tsc -p ./",
+		"prepare": "npm run build-ts",
+		"build-ts": "tsc",
 		"test": "node out/test"
 	},
 	"repository": {
