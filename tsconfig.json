@@ -4,23 +4,14 @@
 
 	"module": "CommonJS",
 	"esModuleInterop": true,
-	"noImplicitAny": true,
 	"strict": true,
-	"moduleResolution": "node",
 	"sourceMap": true,
 
 	"outDir": "out",
 	"rootDir": ".",
 	"baseUrl": ".",
-	"paths": {
-	"*": ["node_modules/*"]
-	},
 
 	"typeRoots": ["./node_modules/@types", "./types", "../../node_modules/@types"],
-	"resolveJsonModule": true,
-	// Ignore node_modules, etc.
-	"skipLibCheck": true,
-	"forceConsistentCasingInFileNames": true
 },
 "include": ["src/**/*", "test/**/*"],
 "exclude": []
