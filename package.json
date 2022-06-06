@@ -1,6 +1,6 @@
-	{
+{
 	"name": "@tyren/markdown-it-dokapi",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "A markdown-it plugin providing tools to document API",
 	"main": "./out/src",
 	"contributes": {
@@ -10,9 +10,9 @@
 		]
 	},
 	"scripts": {
-		"prepare": "npm run build-ts",
+		"prepublish": "npm run build-ts",
 		"build-ts": "tsc",
-		"test": "node out/test"
+		"test": "node ./out/test"
 	},
 	"repository": {
 		"type": "git",
@@ -37,5 +37,8 @@
 	"bugs": {
 		"url": "https://github.com/tyrenn/markdown-it-dokapi/issues"
 	},
-	"homepage": "https://github.com/tyrenn/markdown-it-dokapi#readme"
+	"homepage": "https://github.com/tyrenn/markdown-it-dokapi#readme",
+	"dependencies": {
+		"npm": "^8.12.1"
+	}
 }

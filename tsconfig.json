@@ -1,20 +1,20 @@
 {
 "compilerOptions": {
 	"target": "ES2020",
-	// module is overridden from the build:esm/build:cjs scripts
+
 	"module": "CommonJS",
 	"esModuleInterop": true,
 	"noImplicitAny": true,
 	"strict": true,
 	"moduleResolution": "node",
 	"sourceMap": true,
-	// outDir is overridden from the build:esm/build:cjs scripts
-	"outDir": "out",
-	"baseUrl": ".",
+
+	"outDir": "./out",
+	"baseUrl": "./",
 	"paths": {
 	"*": ["node_modules/*"]
 	},
-	// Type roots allows it to be included in a yarn workspace
+	
 	"typeRoots": ["./node_modules/@types", "./types", "../../node_modules/@types"],
 	"resolveJsonModule": true,
 	// Ignore node_modules, etc.
