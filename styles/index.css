@@ -1,0 +1,111 @@
+
+.dokapi-route summary::marker{
+	content: "";
+}
+
+.dokapi-route details{
+	margin: 0;
+}
+
+.dokapi-verb{
+	color: white;
+	border-radius: 0.1em;
+	padding: 1%;
+	margin: 0;
+	margin-right: 1em;
+	font-weight: 600;
+}
+
+.dokapi-route{
+	margin: 0;
+	margin-right: 1em;
+	font-size: 1em;
+}
+
+.dokapi-description{
+	margin: 0;
+	font-size: 1em;
+	font-weight: 300;
+}
+
+.dokapi-title {
+	display: flex;
+	margin: 0 -1.2rem;
+   padding: 0.8rem 1.2rem 0.8rem 1.2rem;
+	justify-content: flex-start;
+	align-items: center;
+	font-weight: 700;
+}
+
+.dokapi-route.GET{
+	border-left-color: rgb(116, 173, 248);
+}
+
+.dokapi-route.GET .dokapi-title{
+	border-bottom: 1px solid rgba(116, 173, 248, .2);
+   background-color: rgba(116, 173, 248, .1);
+}
+
+.dokapi-route.GET .dokapi-verb{
+	background-color: rgba(116, 173, 248, 1);
+}
+
+
+.dokapi-route.POST{
+	border-left-color: rgb(112, 201, 149);
+}
+
+.dokapi-route.POST .dokapi-title{
+	border-bottom: 1px solid rgba(112, 201, 149, .2);
+   background-color: rgba(112, 201, 149, .1);
+}
+
+.dokapi-route.POST .dokapi-verb{
+	background-color: rgba(112, 201, 149, 1);
+}
+
+
+
+.dokapi-route.DELETE{
+	border-left-color: rgb(230, 79, 71);
+}
+
+.dokapi-route.DELETE .dokapi-title{
+	border-bottom: 1px solid rgba(230, 79, 71, .2);
+   background-color: rgba(230, 79, 71, .1);
+}
+
+.dokapi-route.DELETE .dokapi-verb{
+	background-color: rgba(230, 79, 71, 1);
+}
+
+
+
+.dokapi-route.PUT{
+	border-left-color: rgb(239, 165, 74);
+}
+
+.dokapi-route.PUT .dokapi-title{
+	border-bottom: 1px solid rgba(239, 165, 74, .2);
+   background-color: rgba(239, 165, 74, .1);
+}
+
+.dokapi-route.PUT .dokapi-verb{
+	background-color: rgba(239, 165, 74, 1);
+}
+
+
+
+
+.dokapi-route.PATCH{
+	border-left-color: rgb(124, 224, 195);
+}
+
+.dokapi-route.PATCH .dokapi-title{
+	border-bottom: 1px solid rgba(124, 224, 195, .2);
+   background-color: rgba(124, 224, 195, .1);
+}
+
+.dokapi-route.PATCH .dokapi-verb{
+	background-color: rgba(124, 224, 195, 1);
+}
