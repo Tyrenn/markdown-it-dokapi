@@ -1,6 +1,6 @@
 {
 	"name": "@tyren/markdown-it-dokapi",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "A markdown-it plugin providing tools to document API",
 	"main": "dist/src/index.js",
 	"types": "dist/src/index.d.ts",

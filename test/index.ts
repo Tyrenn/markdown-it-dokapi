@@ -7,6 +7,9 @@ const text = `
 	
 	Still inside route
 
+	&<< 200
+		C'est un test
+
 Now it is time for next adventures
 `
 
