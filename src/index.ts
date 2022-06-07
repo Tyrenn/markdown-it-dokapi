@@ -21,8 +21,8 @@ const
 			md.renderer.rules["dokapi_title_open"] = render;
 				md.renderer.rules["dokapi_verb_open"] = render;
 				md.renderer.rules["dokapi_verb_close"] = render;
-				md.renderer.rules["dokapi_route_open"] = render;
-				md.renderer.rules["dokapi_route_close"] = render;
+				md.renderer.rules["dokapi_path_open"] = render;
+				md.renderer.rules["dokapi_path_close"] = render;
 				md.renderer.rules["dokapi_description_open"] = render;
 				md.renderer.rules["dokapi_description_close"] = render;
 			md.renderer.rules["dokapi_title_close"] = render;
@@ -41,8 +41,8 @@ const
 		else if (token.type === "dokapi_verb_open"){
 			tokens[idx].attrJoin('class', "dokapi-verb");
 		}
-		else if (token.type === "dokapi_route_open"){
-			tokens[idx].attrJoin('class', "dokapi-route");
+		else if (token.type === "dokapi_path_open"){
+			tokens[idx].attrJoin('class', "dokapi-path");
 		}
 		else if (token.type === "dokapi_description_open"){
 			tokens[idx].attrJoin('class', "dokapi-description");
@@ -71,7 +71,7 @@ const
 		let params: string[] = state.src.slice(pos, max).trim().split(' ');
 	
 		let verb = params.shift();
-		let route = params.shift();
+		let path = params.shift();
 		let description = params.join(' ');
 
 		if (!verb || _types.indexOf(verb) < 0) {
@@ -151,16 +151,16 @@ const
 
 
 				// ROUTE
-				token = state.push("dokapi_route_open", "h3", 1);
+				token = state.push("dokapi_path_open", "h3", 1);
 				token.block = true;
 				token.map = [startLine, startLine + 1];
 
 				token = state.push("inline", "", 0);
-				token.content = route;
+				token.content = path;
 				token.map = [startLine, startLine + 1];
 				token.children = [];
 
-				token = state.push("dokapi_route_close", "h3", -1);
+				token = state.push("dokapi_path_close", "h3", -1);
 				token.map = [startLine, nextLine];
 				token.block = true;
 

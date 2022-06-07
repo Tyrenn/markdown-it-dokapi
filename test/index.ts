@@ -2,7 +2,7 @@ import appy from "../src";
 import MarkdownIt from "markdown-it"
 
 const text = `
-&&& GET /route/ One amazing title route
+&&& POST /route/ One amazing title route
 	The title route text
 	
 	Still inside route

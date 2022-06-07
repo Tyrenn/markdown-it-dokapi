@@ -1,6 +1,6 @@
 {
 	"name": "@tyren/markdown-it-dokapi",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "A markdown-it plugin providing tools to document API",
 	"main": "dist/src/index.js",
 	"types": "dist/src/index.d.ts",
@@ -14,7 +14,7 @@
 	"scripts": {
 		"prepublishOnly": "npm run build-ts",
 		"build-ts": "echo 'building...' && tsc -p ./",
-		"test": "node ./out/test"
+		"test": "node ./dist/test"
 	},
 	"repository": {
 		"type": "git",
