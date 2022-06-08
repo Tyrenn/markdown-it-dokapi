@@ -32,10 +32,32 @@ Message will be unparsed if status is success (2xx)
 ```
 
 
+## Copy / References
+
+`&## [keyword]`
+
+Defines a reference with the name `keywords`
+
+`&@@ [keyword]`
+
+Repeat the block stored in `keyword` reference
+
+Allows to define responses or errors once and repeat it inside API.
+
+```md
+
+&## error1
+	&<< 404 Not Found
+
+&&& GET /test/ Test route
+
+	&<< 200
+
+	&@@ error1
+
 ## Future features ?
 
 I might add additionnal commands in the future... Feel free to discuss it in issues.
-* Error Appendix ?
 * Object Model ?
 * Process bloc ?
 * Request bloc ?

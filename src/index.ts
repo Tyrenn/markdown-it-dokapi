@@ -1,13 +1,18 @@
 import type MarkdownIt from "markdown-it"
 import Renderer from "markdown-it/lib/renderer";
+import StateCore from "markdown-it/lib/rules_core/state_core";
 import Token from "markdown-it/lib/token";
 	
 const
 	_marker_global : number = 38 /* '&' */,
 	_marker_route : number = 38 /* '&' */,
 	_marker_response : number = 60 /* '<' */,
+	_marker_define_reference : number = 35 /* '#' */,
+	_marker_reference : number = 64 /* '@' */,
 	_minMarkerLen_route : number = 2,
 	_minMarkerLen_response : number = 2,
+	_minMarkerLen_define_reference : number = 2,
+	_minMarkerLen_reference : number = 2,
 	_types_route = [
 		"GET",  			//rgb(116, 173, 248);
 		"POST",  		//rgb(112, 201, 149);
@@ -21,9 +26,14 @@ const
 	]
 	;
 
+//let references : Map<string, {startLine: number, nextLine: number}>= new Map();
+
 	export default function MarkdownItDOKAPI(md: MarkdownIt) {
+		md.block.ruler.after("fence", "dokapi_define_reference", dokapiDefineReference);
+		md.block.ruler.after("fence", "dokapi_reference", dokapiReference);
 		md.block.ruler.after("fence", "dokapi_route", dokapiRoute);
 		md.block.ruler.after("fence", "dokapi_response", dokapiResponse);
+		md.core.ruler.after('block', 'dokapi_apply_reference', dokapiCoreApplyReference )
 
 		md.renderer.rules["dokapi_route_open"] = renderRoute;
 		md.renderer.rules["dokapi_route_details_open"] = renderRoute;
@@ -55,6 +65,221 @@ const
 
 	}
 
+
+
+	function copyToken(token : Token){
+		let copyt : Token = new Token(token.type, token.tag, token.nesting);
+		copyt.content = token.content;
+		copyt.tag = token.tag;
+		copyt.attrs = token.attrs;
+		copyt.map = token.map;
+		copyt.level = token.level;
+		if(token.children)
+			for(let child of token.children)
+				copyt.children?.push(copyToken(child));
+		copyt.children = [];
+		copyt.markup = token.markup;
+		copyt.info = token.info;
+		copyt.meta = token.meta;
+		copyt.block = token.block;
+		copyt.hidden = token.hidden;
+		return copyt;
+	}
+
+
+	function dokapiDefineReference(state: any, startLine: number, endLine: number, silent: boolean){
+		let pos: number = state.bMarks[startLine] + state.tShift[startLine];
+		let max: number = state.eMarks[startLine];
+		let marker: number = state.src.charCodeAt(pos);
+		if (marker !== _marker_global) 
+			return false;
+
+		// scan marker after and length
+		let mem = pos;
+		if(_marker_define_reference == _marker_global){
+			pos = state.skipChars(pos, marker);
+			let len = pos - mem;
+			if (len < _minMarkerLen_define_reference + 1) 
+				return false;
+		}
+		else{
+			pos = state.skipChars(pos, marker);
+			marker = state.src.charCodeAt(pos);
+			if (marker !== _marker_define_reference) 
+				return false;
+			pos = state.skipChars(pos, marker);
+			let len = pos - mem;
+			if (len < _minMarkerLen_define_reference) 
+				return false;
+		}
+
+		let params: string[] = state.src.slice(pos, max).trim().split(' ');
+	
+		let refname = params.shift();
+
+		if (!refname) {
+			return false;
+		}
+
+		// Since start is found, we can report success here in validation mode
+		if (silent) 
+			return true;
+
+		
+
+		let oldParent = state.parentType;
+		let oldLineMax = state.lineMax;
+		let oldIndent = state.blkIndent;
+
+		state.blkIndent += 4;
+
+		// search end of block
+		let nextLine = startLine;
+		for (; ;) {
+			nextLine++;
+			if (nextLine >= endLine) {
+					// unclosed block should be autoclosed by end of document.
+					// also block seems to be autoclosed by end of parent
+					break;
+			}
+			pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
+			max = state.eMarks[nextLine];
+
+			if (pos < max && state.sCount[nextLine] < state.blkIndent) {
+					// non-empty line with negative indent should stop the list:
+					// - !!!
+					//  test
+					break;
+			}
+		}
+
+		state.parentType = "dokapi";
+		// this will prevent lazy continuations from ever going past our end marker
+		state.lineMax = nextLine;
+
+		//references.set(refname, {startLine : startLine + 1, nextLine});
+		//console.log(references);
+
+		let token = state.push("dokapi_reference_open", "", 0);
+		token.map = [startLine, nextLine];
+		token.info = refname;
+		token.block = false;
+
+		state.md.block.tokenize(state, startLine + 1, nextLine);
+
+		token = state.push("dokapi_reference_close", "", 0);
+		token.map = [startLine, nextLine];
+		token.block = false;
+
+		state.parentType = oldParent;
+		state.lineMax = oldLineMax;
+		state.line = nextLine;
+		state.blkIndent = oldIndent;
+		return true;
+	}
+
+	function dokapiReference(state: any, startLine: number, endLine: number, silent: boolean){
+		let pos: number = state.bMarks[startLine] + state.tShift[startLine];
+		let max: number = state.eMarks[startLine];
+		let marker: number = state.src.charCodeAt(pos);
+		if (marker !== _marker_global) 
+			return false;
+
+		// scan marker after and length
+		let mem = pos;
+		if(_marker_reference == _marker_global){
+			pos = state.skipChars(pos, marker);
+			let len = pos - mem;
+			if (len < _minMarkerLen_reference + 1) 
+				return false;
+		}
+		else{
+			pos = state.skipChars(pos, marker);
+			marker = state.src.charCodeAt(pos);
+			if (marker !== _marker_reference) 
+				return false;
+			pos = state.skipChars(pos, marker);
+			let len = pos - mem;
+			if (len < _minMarkerLen_reference) 
+				return false;
+		}
+
+		let params: string[] = state.src.slice(pos, max).trim().split(' ');
+	
+		let refname = params.shift();
+
+		if (!refname) {
+			return false;
+		}
+
+		// Since start is found, we can report success here in validation mode
+		if (silent) 
+			return true;
+
+		state.line = startLine + 1;
+
+		// parse body
+		let token = state.push("dokapi_reference", "", 0);
+		token.info = refname;
+		token.block = false;
+		token.map    = [ startLine, state.line ];
+
+		// parse body
+		//state.md.block.tokenize(state, startLine + 1, endLine);
+
+
+		return true;
+	}
+
+	function dokapiCoreApplyReference(state: StateCore){
+		let refs : Map<string, Token[]> = new Map();
+		
+		let currentrefname = "";
+		let active = false;
+
+		// Parse defined references
+		for(let token of state.tokens){
+			if(token.type === 'dokapi_reference_open'){
+				active = true;
+				currentrefname = token.info;
+				refs.set(token.info, []);
+				continue;
+			}
+			if(token.type === 'dokapi_reference_close'){
+				console.log('test');
+				active = false;
+				currentrefname = '';
+			}
+
+			if(active){
+				let tokens = refs.get(currentrefname);
+
+				if(tokens)
+					tokens.push(copyToken(token));
+			}
+		}
+
+		// Add reference
+		for(let i = 0; i < state.tokens.length; i++){
+			if(state.tokens[i].type === 'dokapi_reference'){
+				let tokens = refs.get(state.tokens[i].info);
+				if(!tokens)
+					break;
+
+				console.log(state.tokens[i].type);
+				let j = 1;
+				for(let t of tokens){
+					state.tokens.splice(i + j, 0, t);
+					j++;
+				}
+
+			}
+		}
+
+		state.tokens = state.tokens.filter(token => token.type !== 'dokapi_reference' && token.type !== 'dokapi_reference_open' && token.type !== 'dokapi_reference_close');
+	}
+
+
 	function renderRoute(tokens: Token[], idx: number, _options: any, env: any, self: Renderer) {
 		var token = tokens[idx];
 		if (token.type === "dokapi_route_open") {
@@ -76,7 +301,6 @@ const
 
 
 	function dokapiRoute(state: any, startLine: number, endLine: number, silent: boolean) {
-
 		// if it's indented more than 3 spaces, it should be a code block
 		if (state.tShift[startLine] - state.blkIndent >= 4) return false;
 		let pos: number = state.bMarks[startLine] + state.tShift[startLine];
@@ -84,8 +308,6 @@ const
 		let marker: number = state.src.charCodeAt(pos);
 		if (marker !== _marker_global) 
 			return false;
-
-		console.log("YES");
 
 		// scan marker after and length
 		let mem = pos;
@@ -105,8 +327,6 @@ const
 			if (len < _minMarkerLen_route) 
 				return false;
 		}
-
-		console.log("NO");
 
 		let markup: string = state.src.slice(mem, pos);
 		let params: string[] = state.src.slice(pos, max).trim().split(' ');
@@ -245,6 +465,8 @@ const
 		state.blkIndent = oldIndent;
 		return true;
 	}
+
+
 
 
 

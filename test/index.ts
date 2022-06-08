@@ -2,15 +2,14 @@ import appy from "../src";
 import MarkdownIt from "markdown-it"
 
 const text = `
-&&& POST /route/ One amazing title route
-	The title route text
-	
-	Still inside route
 
-	&<< 200
-		C'est un test
+&## test
+	&<< 404 Not found error
+		Encore un test
 
-Now it is time for next adventures
+Euhhh
+
+&@@ test
 `
 
 let mdit = MarkdownIt().use(appy);
