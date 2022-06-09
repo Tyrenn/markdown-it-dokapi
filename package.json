@@ -4,7 +4,6 @@
 	"description": "A markdown-it plugin providing tools to document API",
 	"main": "dist/src/index.js",
 	"types": "dist/src/index.d.ts",
-
 	"contributes": {
 		"markdown.markdownItPlugins": true,
 		"markdown.previewStyles": [
@@ -30,14 +29,16 @@
 	"author": "Guillaume Vailland (Tyren)",
 	"license": "MIT",
 	"activationEvents": [],
-	"devDependencies": {
-		"@types/markdown-it": "^12.2.3",
-		"@types/node": "^7.0.43",
-		"markdown-it": "^13.0.1",
-		"typescript": "^3.1.4"
-	},
 	"bugs": {
 		"url": "https://github.com/tyrenn/markdown-it-dokapi/issues"
 	},
-	"homepage": "https://github.com/tyrenn/markdown-it-dokapi#readme"
+	"homepage": "https://github.com/tyrenn/markdown-it-dokapi#readme",
+	"devDependencies": {
+		"@types/markdown-it": "^12.2.3",
+		"@types/node": "^7.0.43",
+		"typescript": "^3.1.4"
+	},
+	"dependencies": {
+		"markdown-it": "^13.0.1"
+	}
 }
