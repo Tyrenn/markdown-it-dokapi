@@ -531,7 +531,7 @@ const
 			responseclass = "success";
 		}
 		else{
-			message = params.shift();
+			message = params.join(' ');
 			responseclass = "error";
 		}
 
