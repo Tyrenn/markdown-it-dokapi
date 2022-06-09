@@ -10,6 +10,8 @@ const text = `
 Euhhh
 
 &@@ test
+
+&@@ test
 `
 
 let mdit = MarkdownIt().use(appy);

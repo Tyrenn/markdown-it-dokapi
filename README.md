@@ -36,7 +36,7 @@ Message will be unparsed if status is success (2xx)
 
 `&## [keyword]`
 
-Defines a reference with the name `keywords`
+Defines a reference with the name `keywords`. The reference will include everything indented and written below.
 
 `&@@ [keyword]`
 
@@ -54,6 +54,7 @@ Allows to define responses or errors once and repeat it inside API.
 	&<< 200
 
 	&@@ error1
+```
 
 ## Future features ?
 

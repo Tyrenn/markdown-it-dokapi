@@ -255,7 +255,7 @@ const
 				let tokens = refs.get(currentrefname);
 
 				if(tokens)
-					tokens.push(copyToken(token));
+					tokens.push(token);
 			}
 		}
 
@@ -266,10 +266,9 @@ const
 				if(!tokens)
 					break;
 
-				console.log(state.tokens[i].type);
 				let j = 1;
 				for(let t of tokens){
-					state.tokens.splice(i + j, 0, t);
+					state.tokens.splice(i + j, 0, copyToken(t));
 					j++;
 				}
 
